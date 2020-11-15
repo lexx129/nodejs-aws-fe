@@ -115,8 +115,8 @@ export default function PageOrder() {
       return;
     }
     const promises: any[] = [
-      axios.get(`${API_PATHS.product}/product`),
-      axios.get(`${API_PATHS.order}/order/${id}`)
+      axios.get(`${API_PATHS.product}/products/${id}`),
+      // axios.get(`${API_PATHS.order}/order/${id}`)
     ];
     Promise.all(promises)
       .then(([{data: products}, {data: order}]) => {
