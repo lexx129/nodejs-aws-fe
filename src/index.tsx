@@ -13,12 +13,33 @@ axios.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.response.status === 400) {
-      alert(error.response.data?.data);
+    switch (error.response.status){
+      case 400: {
+        alert(error.response.data?.data);
+        break;
+      }
+      case 403: {
+        alert('You are not authorized to access this resource (username or password is incorrect)');
+        break;
+      }
+      case 401: {
+        alert('You are not authorized to access this resource (no "Authorization" header)');
+        break;
+      }
     }
     return Promise.reject(error.response);
   }
 );
+
+const token = localStorage.getItem('authorization_token')
+console.log('Token is: ', token);
+axios.interceptors.request.use(config => {
+  if (token) {
+    config.headers.get['Authorization'] = token;
+  }
+
+  return config;
+})
 
 ReactDOM.render(
   <React.StrictMode>
